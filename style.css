@@ -30,7 +30,12 @@ body
 #container
 {
     display: flex;
-    height: 90vh;
+
+    position: absolute;
+    top: 90px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
     margin: 20px;
 }
