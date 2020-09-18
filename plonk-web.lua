@@ -1,6 +1,12 @@
 local js = require "js"
 
-local main_text
+local input_div
+local rolls_div
+
+local formula_in = '<span class="formula">'
+local formula_out = '</span>'
+
+local update_events
 
 local function expand(num_faces, num_dice)
 
@@ -37,38 +43,57 @@ local function roll(str)
 	end
 end
 
+local function output_roll(formula, treated, result)
+
+    local p = js.global.document:createElement "p"
+
+    p.innerHTML = formula_in .. "[" .. formula .. "]" .. formula_out ..
+        '<br />' ..
+        treated .. " → " .. result
+
+    rolls_div:appendChild(p)
+    p:scrollIntoView()
+
+    update_events()
+end
 
 local function on_formula_clicked(elem, event)
 
     local formula = elem.innerHTML:sub(2,-2)
 
     local treated, result = roll(formula)
-    print(formula, treated, result)
+    output_roll(formula, treated, result)
 end
 
 local function treat_formulas()
 
-    local txt = main_text.innerHTML
+    local txt = input_div.innerHTML
 
-    txt = txt:gsub('<span class="formula">(.-)</span>', "%1")
-    txt = txt:gsub("%[[^%[%]]+%]", '<span class="formula">%1</span>')
-    main_text.innerHTML = txt
+    txt = txt:gsub(formula_in .. "(.-)" .. formula_out, "%1")
+    txt = txt:gsub("%[[^%[%]]+%]", formula_in .. "%1" .. formula_out)
+    input_div.innerHTML = txt
 
+    update_events()
+end
+
+update_events = function()
     local spans = js.global.document:getElementsByClassName "formula"
 
     for i = 0, spans.length - 1 do
-        spans[i]:addEventListener("click", on_formula_clicked)
+        spans[i].onclick = on_formula_clicked
     end
 end
 
 local function setup()
 
-    main_text = js.global.document:getElementById "mainText"
-    main_text:addEventListener("blur", treat_formulas)
+    input_div = js.global.document:getElementById "mainText"
+    input_div:addEventListener("blur", treat_formulas)
+
+    rolls_div = js.global.document:getElementById "rolls"
 
     math.randomseed(os.time())
 
-
+    update_events()
 end
 
 setup()

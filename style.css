@@ -4,20 +4,38 @@ body
     font-size: 18px;
 }
 
+#container
+{
+    display: flex;
+    margin: 0 auto;
+    height: 95vh;
+
+    padding: 20px;
+}
+
 #mainText
 {
-    display: block;
-    margin: 0 auto;
-    padding: 20px;
-    width: 75%;
-    height: 90vh;
+    width: 60%;
+    min-height: 200px;
+    margin-right: 20px;
+    overflow-y: scroll;
 
     outline: 0;
     border: none;
 
-    overflow: auto;
     font-family: inherit;
     font-size: inherit;
+
+    background: lightgrey;
+}
+
+#rolls
+{
+    width: 40%;
+    background: lightgrey;
+    word-break: break-all;
+
+    overflow-y: scroll;
 }
 
 .formula
