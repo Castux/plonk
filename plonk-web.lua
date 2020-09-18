@@ -97,7 +97,7 @@ local function setup()
 
     math.randomseed(os.time())
 
-    update_events()
+    treat_formulas()
 end
 
 setup()
