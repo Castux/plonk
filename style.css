@@ -1,0 +1,29 @@
+body
+{
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+#mainText
+{
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    width: 75%;
+    height: 90vh;
+
+    outline: 0;
+    border: none;
+
+    overflow: auto;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.formula
+{
+    font-weight: bold;
+    color: blue;
+
+    cursor: pointer;
+}
