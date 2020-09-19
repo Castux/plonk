@@ -96,8 +96,10 @@ local function roll(str)
 			faces = tonumber(faces)
 			arg = tonumber(arg)
 
-			if mode == "" then
+			if mode == "" and not comparator then
 				return sum(faces, dice)
+			elseif mode == "" and comparator then
+				return count(faces, dice, comparator, arg)
 			elseif mode == "r" then
 				return sum(faces, dice, comparator, arg)
 			elseif mode == "c" then
