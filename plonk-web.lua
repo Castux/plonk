@@ -88,25 +88,33 @@ local function count(faces, dice, comparator, arg)
 	return "{" .. table.concat(rolls, ",") .. "}" .. " " .. count
 end
 
-local function keep(faces, dice, num)
+local function keep(faces, dice, num, drop)
 
 	if num > dice then
 		num = dice
 	end
 
 	local rolls = {}
-	local sum = 0
+	local total = 0
 
 	for i = 1, dice or 1 do
 		local r = math.random(faces)
 		table.insert(rolls, r)
+		total = total + r
 	end
 
 	table.sort(rolls)
 
+	local tag = drop and "s" or "b"
+
+	local sum = 0
 	for i = #rolls - num + 1, #rolls do
 		sum = sum + rolls[i]
-		rolls[i] = "<b>" .. rolls[i] .. "</b>"
+		rolls[i] = "<" .. tag .. ">" .. rolls[i] .. "</" .. tag .. ">"
+	end
+
+	if drop then
+		sum = total - sum
 	end
 
 	for i = 1,#rolls do
@@ -120,7 +128,7 @@ end
 local function roll(str)
 
 	local display = str:gsub(
-		"(%d*)d(%d+)([crk]?)([<>=]*)(%d*)",
+		"(%d*)d(%d+)([crkd]?)([<>=]*)(%d*)",
 		function(dice, faces, mode, comparator, arg)
 			dice = tonumber(dice) or 1
 			faces = tonumber(faces)
@@ -136,6 +144,8 @@ local function roll(str)
 				return count(faces, dice, comparator, arg)
 			elseif mode == "k" then
 				return keep(faces, dice, arg)
+			elseif mode == "d" then
+				return keep(faces, dice, arg, "drop")
 			end
 		end
 	)
