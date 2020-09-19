@@ -9,7 +9,7 @@ local formula_out = '</span>'
 local update_events
 
 local default_text = [[
-<u>Welcome to Plonk, a minimalistic dice roller!</u><br>
+Welcome to <b>Plonk</b>, a minimalistic dice roller!<br>
 <br>
 You can type any text you want in here. Anything within brackets is considered to be a dice formula. For instance: [2d20 + 1]. Click on a formula to roll it! After editing the text, press tab or click outside the box to process it.<br>
 <br>
