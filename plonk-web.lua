@@ -66,6 +66,7 @@ local function sum(faces, dice, reroll_comparator, arg)
 		return sum
 	end
 end
+
 local function count(faces, dice, comparator, arg)
 
 	if not comparators[comparator] then
@@ -87,10 +88,39 @@ local function count(faces, dice, comparator, arg)
 	return "{" .. table.concat(rolls, ",") .. "}" .. " " .. count
 end
 
+local function keep(faces, dice, num)
+
+	if num > dice then
+		num = dice
+	end
+
+	local rolls = {}
+	local sum = 0
+
+	for i = 1, dice or 1 do
+		local r = math.random(faces)
+		table.insert(rolls, r)
+	end
+
+	table.sort(rolls)
+
+	for i = #rolls - num + 1, #rolls do
+		sum = sum + rolls[i]
+		rolls[i] = "<b>" .. rolls[i] .. "</b>"
+	end
+
+	for i = 1,#rolls do
+		local j = math.random(i, #rolls)
+		rolls[i],rolls[j] = rolls[j],rolls[i]
+	end
+
+	return "{" .. table.concat(rolls, ",") .. "}" .. " " .. sum
+end
+
 local function roll(str)
 
 	local display = str:gsub(
-		"(%d*)d(%d+)([cr]?)([<>=]*)(%d*)",
+		"(%d*)d(%d+)([crk]?)([<>=]*)(%d*)",
 		function(dice, faces, mode, comparator, arg)
 			dice = tonumber(dice) or 1
 			faces = tonumber(faces)
@@ -104,6 +134,8 @@ local function roll(str)
 				return sum(faces, dice, comparator, arg)
 			elseif mode == "c" then
 				return count(faces, dice, comparator, arg)
+			elseif mode == "k" then
+				return keep(faces, dice, arg)
 			end
 		end
 	)
