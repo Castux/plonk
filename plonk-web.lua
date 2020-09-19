@@ -26,23 +26,6 @@ Use "//" for integer division, rounded down: [3d10 // 2].<br>
 That's about it!<br>
 ]]
 
-local function sum(faces, dice)
-
-	local rolls = {}
-	local sum = 0
-
-	for i = 1, dice or 1 do
-		table.insert(rolls, math.random(faces))
-		sum = sum + rolls[#rolls]
-	end
-
-	if #rolls > 1 then
-		return "{" .. table.concat(rolls, ",") .. "}" .. " " .. sum
-	else
-		return sum
-	end
-end
-
 local comparators =
 {
 	[""] = function(value, test) return value == test end,
@@ -53,6 +36,36 @@ local comparators =
 	["<="] = function(value, test) return value <= test end
 }
 
+local function sum(faces, dice, reroll_comparator, arg)
+
+	if reroll_comparator and not comparators[reroll_comparator] then
+		return nil
+	end
+
+	local rolls = {}
+	local sum = 0
+
+	for i = 1, dice or 1 do
+		local r = math.random(faces)
+		table.insert(rolls, r)
+
+		if reroll_comparator and comparators[reroll_comparator](r, arg) then
+
+			rolls[#rolls] = "<s>" .. rolls[#rolls] .. "</s>"
+
+			r = math.random(faces)
+			table.insert(rolls, r)
+		end
+
+		sum = sum + r
+	end
+
+	if #rolls > 1 then
+		return "{" .. table.concat(rolls, ",") .. "}" .. " " .. sum
+	else
+		return sum
+	end
+end
 local function count(faces, dice, comparator, arg)
 
 	if not comparators[comparator] then
@@ -76,7 +89,7 @@ end
 local function roll(str)
 
 	local display = str:gsub(
-		"(%d*)d(%d+)([c]?)([<>=]*)(%d*)",
+		"(%d*)d(%d+)([cr]?)([<>=]*)(%d*)",
 		function(dice, faces, mode, comparator, arg)
 			dice = tonumber(dice) or 1
 			faces = tonumber(faces)
@@ -84,6 +97,8 @@ local function roll(str)
 
 			if mode == "" then
 				return sum(faces, dice)
+			elseif mode == "r" then
+				return sum(faces, dice, comparator, arg)
 			elseif mode == "c" then
 				return count(faces, dice, comparator, arg)
 			end
