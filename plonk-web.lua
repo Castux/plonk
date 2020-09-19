@@ -79,6 +79,7 @@ local function count(faces, dice, comparator, arg)
 		local r = math.random(faces)
 		table.insert(rolls, r)
 		if comparators[comparator](r, arg) then
+			rolls[#rolls] = "<b>" .. rolls[#rolls] .. "</b>"
 			count = count + 1
 		end
 	end
