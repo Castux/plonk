@@ -26,38 +26,59 @@ Use "//" for integer division, rounded down: [3d10 // 2].<br>
 That's about it!<br>
 ]]
 
-local function expand(num_faces, num_dice)
+local function sum(faces, dice)
 
-	local res = {}
+	local rolls = {}
+	local sum = 0
 
-	for i = 1, num_dice or 1 do
-		table.insert(res, math.random(num_faces))
+	for i = 1, dice or 1 do
+		table.insert(rolls, math.random(faces))
+		sum = sum + rolls[#rolls]
 	end
 
-	res = table.concat(res, "+")
+	if #rolls > 1 then
+		return "{" .. table.concat(rolls, ",") .. "}" .. " " .. sum
+	else
+		return sum
+	end
+end
 
-	if num_dice > 1 then
-		res = "(" .. res .. ")"
+local function count(faces, dice, arg)
+
+	local rolls = {}
+	local count = 0
+
+	for i = 1, dice or 1 do
+		table.insert(rolls, math.random(faces))
+		if rolls[#rolls] == arg then
+			count = count + 1
+		end
 	end
 
-	return res
+	return "{" .. table.concat(rolls, ",") .. "}" .. " " .. count
 end
 
 local function roll(str)
 
-	local treated = str:gsub("(%d*)d(%d+)", function(dice, faces)
+	local display = str:gsub("(%d*)d(%d+)([c]?)(%d*)", function(dice, faces, mode, arg)
 		dice = tonumber(dice) or 1
 		faces = tonumber(faces)
+		arg = tonumber(arg)
 
-		return expand(faces, dice)
+		if mode == "" then
+			return sum(faces, dice)
+		elseif mode == "c" then
+			return count(faces, dice, arg)
+		end
 	end)
 
-	local func = load("return (" .. treated .. ")")
+	local code = display:gsub("{", "--[["):gsub("}", "]]")
+	local func = load("return (" .. code .. ")")
 
 	if func then
         local success, value = pcall(func)
         if success and value then
-            return treated, value
+            return display, value
         end
 	end
 
