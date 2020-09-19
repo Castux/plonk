@@ -9,7 +9,7 @@ local formula_out = '</span>'
 local update_events
 
 local default_text = [[
-Welcome to Plonk, a minimalistic dice roller!<br>
+<u>Welcome to Plonk, a minimalistic dice roller!</u><br>
 <br>
 You can type any text you want in here. Anything within brackets is considered to be a dice formula. For instance: [2d20 + 1]. Click on a formula to roll it! After editing the text, press tab or click outside the box to process it.<br>
 <br>
@@ -19,11 +19,48 @@ The notations "dX" and "XdY" are recognized, as well as all basic arithmetic ope
 <br>
 Just a [d6].<br>
 With a modifier [d10 + 3].<br>
-Multiple dice are added together: [4d6 + 10].<br>
+Multiple dice are added together as per the usual notation: [4d6 + 10].<br>
 You can go as crazy as you like! [(3d6 * 5) + (4 + d4) * 3].<br>
 Use "//" for integer division, rounded down: [3d10 // 2].<br>
 <br>
-That's about it!<br>
+If you don't use dice at all, it's just a calculator! [20 * 3 + 5 / 4]<br>
+<br>
+<u>Details and extra modes</u><br>
+<br>
+Sum: XdY (the usual notation)<br>
+Count: XdYc'op'Z (count occurences of faces that match condition 'op'Z)<br>
+Reroll: XdYr'op'Z (reroll once faces that match condition 'op'Z)<br>
+Keep highest: XdYkZ (keep highest Z results, take the sum)<br>
+Drop highest: XdYdZ (drop highest Z results, take the sum)<br>
+<br>
+Valid operators: =, &lt;, &gt;, &lt;=, &gt;=<br>
+Shortcuts: c can be omitted if an operator is present. Operator can be omitted if c is present (means =).<br>
+<br>
+<u>Examples</u><br>
+<br>
+Roll 10 d6, count the sixes [10d6c6] or [10d6=6] or [10d6c=6]<br>
+Roll 5 d10, count the eights and above [5d10c>=8] or [5d10>=8]<br>
+Damage with great weapon fighting in DnD (reroll 1 and 2): [2d10r<=2 + 5]<br>
+Ability scores in DnD: [4d6k3]<br>
+Advantage and disadvantage rolls with modifier: [2d20k1 + 2] [2d20d1 + 2]<br>
+<br>
+<u>Cloud Giant (example DnD stat block)</u><br>
+<br>
+AC 14<br>
+Hit points [16d12 + 96]<br>
+<br>
+STR [d20 + 8] DEX [d20 + 0] CON [d20 + 1]<br>
+INT [d20 + 1] WIS [d20 + 3] CHA [d20 + 3]<br>
+<br>
+Con [d20 + 10] Wis [d20 + 7] Cha [d20 + 7]<br>
+Insight [d20 + 7] Perception [d20 + 7]<br>
+<br>
+(Some magic stuff omitted)<br>
+<br>
+Multi: two morningstar attacks<br>
+Morningstar: 10 ft, [d20 + 12], [3d8 + 8] piercing<br>
+Rock: 60/240 ft, [d20 + 12], [4d10 + 8] bludgeoning<br>
+<br>
 ]]
 
 local comparators =
