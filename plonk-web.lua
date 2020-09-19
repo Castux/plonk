@@ -43,14 +43,29 @@ local function sum(faces, dice)
 	end
 end
 
-local function count(faces, dice, arg)
+local comparators =
+{
+	[""] = function(value, test) return value == test end,
+	["="] = function(value, test) return value == test end,
+	[">"] = function(value, test) return value > test end,
+	["<"] = function(value, test) return value < test end,
+	[">="] = function(value, test) return value >= test end,
+	["<="] = function(value, test) return value <= test end
+}
+
+local function count(faces, dice, comparator, arg)
+
+	if not comparators[comparator] then
+		return nil
+	end
 
 	local rolls = {}
 	local count = 0
 
 	for i = 1, dice or 1 do
-		table.insert(rolls, math.random(faces))
-		if rolls[#rolls] == arg then
+		local r = math.random(faces)
+		table.insert(rolls, r)
+		if comparators[comparator](r, arg) then
 			count = count + 1
 		end
 	end
@@ -60,17 +75,20 @@ end
 
 local function roll(str)
 
-	local display = str:gsub("(%d*)d(%d+)([c]?)(%d*)", function(dice, faces, mode, arg)
-		dice = tonumber(dice) or 1
-		faces = tonumber(faces)
-		arg = tonumber(arg)
+	local display = str:gsub(
+		"(%d*)d(%d+)([c]?)([<>=]*)(%d*)",
+		function(dice, faces, mode, comparator, arg)
+			dice = tonumber(dice) or 1
+			faces = tonumber(faces)
+			arg = tonumber(arg)
 
-		if mode == "" then
-			return sum(faces, dice)
-		elseif mode == "c" then
-			return count(faces, dice, arg)
+			if mode == "" then
+				return sum(faces, dice)
+			elseif mode == "c" then
+				return count(faces, dice, comparator, arg)
+			end
 		end
-	end)
+	)
 
 	local code = display:gsub("{", "--[["):gsub("}", "]]")
 	local func = load("return (" .. code .. ")")
@@ -103,6 +121,9 @@ end
 local function on_formula_clicked(elem, event)
 
     local formula = elem.innerHTML:sub(2,-2)
+
+	formula = formula:gsub("&lt;", "<")
+	formula = formula:gsub("&gt;", ">")
 
     local treated, result = roll(formula)
     output_roll(formula, treated, result)
