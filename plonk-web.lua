@@ -211,9 +211,7 @@ local function output_roll(formula, treated, result)
     p.innerHTML = formula_in .. "[" .. formula .. "]" .. formula_out ..
         '<br />' .. text
 
-    rolls_div:appendChild(p)
-    p:scrollIntoView()
-
+    rolls_div:insertBefore(p, rolls_div.firstChild)
     update_events()
 end
 
