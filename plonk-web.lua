@@ -204,7 +204,9 @@ local function output_roll(formula, treated, result)
 
     local p = js.global.document:createElement "p"
 
-    local text = treated and (treated .. " → " .. result) or "Invalid formula"
+    local text = treated and
+		(treated .. " → <span class='result'>" .. result .. "</span>") or
+		"Invalid formula"
 
     p.innerHTML = formula_in .. "[" .. formula .. "]" .. formula_out ..
         '<br />' .. text

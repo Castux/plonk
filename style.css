@@ -88,3 +88,9 @@ body
 
     cursor: pointer;
 }
+
+.result
+{
+    border: solid 1px #c10000;
+    padding: 1px 2px 1px 2px;
+}
