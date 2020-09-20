@@ -34,7 +34,7 @@ Keep highest: XdYkZ (keep highest Z results, take the sum)<br>
 Drop highest: XdYdZ (drop highest Z results, take the sum)<br>
 <br>
 Valid operators: =, &lt;, &gt;, &lt;=, &gt;=<br>
-Shortcuts: c can be omitted if an operator is present. Operator can be omitted if c is present (means =).<br>
+Shortcuts: c can be omitted if an operator is present. Operator can be omitted if c is present (means =). A formula that starts with + or - gets d20 added in front automatically.<br>
 <br>
 <u>Examples</u><br>
 <br>
@@ -49,17 +49,17 @@ Advantage and disadvantage rolls with modifier: [2d20k1 + 2] [2d20d1 + 2]<br>
 AC 14<br>
 Hit points [16d12 + 96]<br>
 <br>
-STR [d20 + 8] DEX [d20 + 0] CON [d20 + 1]<br>
-INT [d20 + 1] WIS [d20 + 3] CHA [d20 + 3]<br>
+STR [+8] DEX [+0] CON [+1]<br>
+INT [+1] WIS [+3] CHA [+3]<br>
 <br>
-Con [d20 + 10] Wis [d20 + 7] Cha [d20 + 7]<br>
-Insight [d20 + 7] Perception [d20 + 7]<br>
+Con [+10] Wis [+7] Cha [+7]<br>
+Insight [+7] Perception [+7]<br>
 <br>
 (Some magic stuff omitted)<br>
 <br>
 Multi: two morningstar attacks<br>
-Morningstar: 10 ft, [d20 + 12], [3d8 + 8] piercing<br>
-Rock: 60/240 ft, [d20 + 12], [4d10 + 8] bludgeoning<br>
+Morningstar: 10 ft, [+12], [3d8 + 8] piercing<br>
+Rock: 60/240 ft, [+12], [4d10 + 8] bludgeoning<br>
 <br>
 ]]
 
@@ -221,6 +221,10 @@ local function on_formula_clicked(elem, event)
 
 	formula = formula:gsub("&lt;", "<")
 	formula = formula:gsub("&gt;", ">")
+
+	if formula:match "^%s*[%+%-]" then
+		formula = "d20 " .. formula
+	end
 
     local treated, result = roll(formula)
     output_roll(formula, treated, result)
