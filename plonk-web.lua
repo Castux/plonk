@@ -281,6 +281,8 @@ end
 
 local function append_help()
 	input_div.innerHTML = input_div.innerHTML .. "<br>" .. default_text
+
+	treat_formulas()
 end
 
 local function setup()
