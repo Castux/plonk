@@ -25,6 +25,8 @@ Use "//" for integer division, rounded down: [3d10 // 2].<br>
 <br>
 If you don't use dice at all, it's just a calculator! [20 * 3 + 5 / 4]<br>
 <br>
+Click the title above to display this help text at the end of yours!<br>
+<br>
 <u>Details and extra modes</u><br>
 <br>
 Sum: XdY (the usual notation)<br>
@@ -60,7 +62,6 @@ Insight [+7] Perception [+7]<br>
 Multi: two morningstar attacks<br>
 Morningstar: 10 ft, [+12], [3d8 + 8] piercing<br>
 Rock: 60/240 ft, [+12], [4d10 + 8] bludgeoning<br>
-<br>
 ]]
 
 local comparators =
@@ -278,12 +279,19 @@ update_events = function()
     end
 end
 
+local function append_help()
+	input_div.innerHTML = input_div.innerHTML .. "<br>" .. default_text
+end
+
 local function setup()
 
     input_div = js.global.document:getElementById "mainText"
     input_div:addEventListener("blur", treat_formulas)
 
     rolls_div = js.global.document:getElementById "rolls"
+
+	local title = js.global.document:getElementById "title"
+	title.onclick = append_help
 
     math.randomseed(os.time())
 
