@@ -14,7 +14,7 @@ The text is saved locally in your browser to prevent accidental loss, but you sh
 
 ## Dice formulas supported
 
-And any arithmetic formulas involving parentheses and the usual operators `* + - / // ^ %`, and the following:
+Any arithmetic formulas involving parentheses and the usual operators `* + - / // ^ %`, and the following:
 
 - Single number
 - Single die: dX
