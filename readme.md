@@ -10,6 +10,8 @@ The main use case is to use it on a laptop during a live tabletop RPG session: p
 
 Since it is a text editor and a calculator, you can also add new rolls on the fly, keep track of initiative, HP, whatever you need right there in a full screen webpage.
 
+The text is saved locally in your browser to prevent accidental loss, but you should probably prepare and save your session somewhere else!
+
 ## Dice formulas supported
 
 And any arithmetic formulas involving parentheses and the usual operators `* + - / // ^ %`, and the following:
