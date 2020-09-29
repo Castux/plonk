@@ -295,6 +295,14 @@ local function setup()
 	local title = js.global.document:getElementById "title"
 	title.onclick = append_help
 
+	local lock = js.global.document:getElementsByClassName "lock"
+	lock = lock[0]
+	lock.onclick = function()
+		lock.classList:toggle "unlocked"
+		local editable = input_div:getAttribute "contenteditable"
+		input_div:setAttribute("contenteditable", editable == "true" and "false" or "true")
+	end
+
     math.randomseed(os.time())
 
     load_locally()

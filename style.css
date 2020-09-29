@@ -13,9 +13,17 @@ body
     margin: 0;
 }
 
-#title
+#topbar
 {
     margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#title
+{
+    display: inline-block;
+    margin: 0;
 
     font-family: 'Lakki Reddy', cursive;
     font-size: 3rem;
@@ -42,7 +50,7 @@ body
 
 #mainText
 {
-    /*width: 75%;*/
+    flex-grow: 1;
     min-height: 200px;
     margin-right: 1em;
 
@@ -107,6 +115,11 @@ body
 
 @media only screen and (max-width: 600px)
 {
+    #topbar
+    {
+        height: 1rem;
+    }
+
     #title
     {
         font-size: 1rem;
@@ -133,4 +146,92 @@ body
         min-height: 20%;
         max-height: 20%;
     }
+
+    #lockcontainer
+    {
+        transform: scale(0.5);
+    }
+}
+
+/* Lock stuff */
+
+
+#lockcontainer
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --locked-color: #c10000;
+    --unlocked-color: #c10000;
+}
+
+.lock {
+  width: 24px;
+  height: 21px;
+  border: 3px solid var(--locked-color);
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.lock:after {
+  content: "";
+  display: block;
+  background: var(--locked-color);
+  width: 3px;
+  height: 7px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -3.5px 0 0 -2px;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.lock:before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  bottom: 100%;
+  position: absolute;
+  left: 50%;
+  margin-left: -8px;
+  border: 3px solid var(--locked-color);
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+  border-bottom: 0;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+/* Locked Hover */
+.lock:hover:before {
+  height: 12px;
+}
+/* Unlocked */
+.unlocked {
+  transform: rotate(10deg);
+}
+.unlocked:before {
+  bottom: 130%;
+  left: 31%;
+  margin-left: -11.5px;
+  transform: rotate(-45deg);
+}
+.unlocked,
+.unlocked:before {
+  border-color: var(--unlocked-color);
+}
+.unlocked:after {
+  background: var(--unlocked-color);
+}
+/* Unlocked Hover */
+.unlocked:hover {
+  transform: rotate(3deg);
+}
+.unlocked:hover:before {
+  height: 10px;
+  left: 40%;
+  bottom: 124%;
+  transform: rotate(-30deg);
 }
