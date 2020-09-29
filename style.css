@@ -166,6 +166,7 @@ body
 }
 
 .lock {
+  box-sizing: border-box;
   width: 24px;
   height: 21px;
   border: 3px solid var(--locked-color);
@@ -174,6 +175,7 @@ body
   cursor: pointer;
   -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
+  top: 7px;
 }
 .lock:after {
   content: "";
