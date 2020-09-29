@@ -15,14 +15,11 @@ body
 
 #title
 {
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 25%;
+    margin: 1rem;
 
     font-family: 'Lakki Reddy', cursive;
-    font-size: 62px;
-    height: 62px;
+    font-size: 3rem;
+    height: 3rem;
 
     color: #c10000;
 
@@ -34,12 +31,13 @@ body
     display: flex;
 
     position: absolute;
-    top: 90px;
+    top: 5rem;
     left: 0;
     right: 0;
     bottom: 0;
 
-    margin: 20px;
+    margin: 1em;
+    margin-top: 0;
 }
 
 #mainText
@@ -111,17 +109,13 @@ body
 {
     #title
     {
-        font-size: 20px;
-        height: 1em;
-        margin: 1em;
-        width: auto;
+        font-size: 1rem;
     }
 
     #container
     {
         flex-direction: column;
         top: 3em;
-        margin: 1em;
     }
 
     #mainText
