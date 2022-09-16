@@ -274,7 +274,7 @@ local function check_formula(txt)
 		saved_formulas[txt] = formula
 		return formula_in .. txt .. formula_out
 	else
-		return text
+		return txt
 	end
 end
 
