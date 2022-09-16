@@ -11,7 +11,7 @@ local update_events
 local default_text = [[
 Welcome to <b>Plonk</b>, a minimalistic dice roller!<br>
 <br>
-You can type any text you want in here. Anything within brackets is considered to be a dice formula. For instance: [2d20 + 1]. Click on a formula to roll it! After editing the text, press tab or click outside the box to process it. Click the lock icon to prevent editing (can be convenient on mobile to avoid bringing up the virtual keyboard).<br>
+You can type any text you want in here. Anything within brackets or parentheses is considered to be a dice formula. For instance: [2d20 + 1] or (3d10 + 2d6). Click on a formula to roll it! After editing the text, press tab or click outside the box to process it. Click the lock icon to prevent editing (can be convenient on mobile to avoid bringing up the virtual keyboard).<br>
 <br>
 Your text will be saved locally in your browser, but to be safe you should probably prepare and save the text in another editor!<br>
 <br>
@@ -37,6 +37,7 @@ Drop highest: XdYdZ (drop highest Z results, take the sum)<br>
 <br>
 Valid operators: =, &lt;, &gt;, &lt;=, &gt;=<br>
 Shortcuts: c can be omitted if an operator is present. Operator can be omitted if c is present (means =). A formula that starts with + or - gets d20 added in front automatically.<br>
+In fact, all text matching +X or -X is recognized as formula: for instance +3 or -10.<br>
 <br>
 <u>Examples</u><br>
 <br>
@@ -216,16 +217,11 @@ local function output_roll(formula, treated, result)
 	update_events()
 end
 
+local saved_formulas = {}
+
 local function on_formula_clicked(elem, event)
 
-	local formula = elem.innerHTML:sub(2,-2)
-
-	formula = formula:gsub("&lt;", "<")
-	formula = formula:gsub("&gt;", ">")
-
-	if formula:match "^%s*[%+%-]" then
-		formula = "d20 " .. formula
-	end
+	local formula = saved_formulas[elem.innerHTML]
 
 	local treated, result = roll(formula)
 	output_roll(formula, treated, result)
@@ -259,12 +255,43 @@ local function load_locally()
 	end
 end
 
+local function check_formula(txt)
+
+	local formula
+	if txt:match("%(.*%)") or txt:match("%[.*%]") then
+		formula = txt:sub(2,-2)
+	else
+		formula = txt
+	end
+
+	formula = formula:gsub(formula_in, "")
+	formula = formula:gsub(formula_out, "")
+
+	formula = formula:gsub("&lt;", "<")
+	formula = formula:gsub("&gt;", ">")
+
+	if formula:match "^%s*[%+%-]" then
+		formula = "d20 " .. formula
+	end
+
+	local treated, result = roll(formula)
+
+	if result then
+		saved_formulas[txt] = formula
+		return formula_in .. txt .. formula_out
+	else
+		return text
+	end
+end
+
 local function treat_formulas()
 
 	local txt = input_div.innerHTML
 
 	txt = txt:gsub(formula_in .. "(.-)" .. formula_out, "%1")
-	txt = txt:gsub("%[[^%[%]]+%]", formula_in .. "%1" .. formula_out)
+	txt = txt:gsub("[%+%-]%d+", check_formula)
+	txt = txt:gsub("%[[^%[%]]+%]", check_formula)
+	txt = txt:gsub("%([^%(%)]+%)", check_formula)
 	input_div.innerHTML = txt
 
 	update_events()
