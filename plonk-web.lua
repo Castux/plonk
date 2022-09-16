@@ -192,33 +192,33 @@ local function roll(str)
 	local func = load("return (" .. code .. ")")
 
 	if func then
-        local success, value = pcall(func)
-        if success and value then
-            return display, value
-        end
+		local success, value = pcall(func)
+		if success and value then
+			return display, value
+		end
 	end
 
-    return nil
+	return nil
 end
 
 local function output_roll(formula, treated, result)
 
-    local p = js.global.document:createElement "p"
+	local p = js.global.document:createElement "p"
 
-    local text = treated and
+	local text = treated and
 		(treated .. " → <span class='result'>" .. result .. "</span>") or
 		"Invalid formula"
 
-    p.innerHTML = formula_in .. "[" .. formula .. "]" .. formula_out ..
-        '<br />' .. text
+	p.innerHTML = formula_in .. "[" .. formula .. "]" .. formula_out ..
+		'<br />' .. text
 
-    rolls_div:insertBefore(p, rolls_div.firstChild)
-    update_events()
+	rolls_div:insertBefore(p, rolls_div.firstChild)
+	update_events()
 end
 
 local function on_formula_clicked(elem, event)
 
-    local formula = elem.innerHTML:sub(2,-2)
+	local formula = elem.innerHTML:sub(2,-2)
 
 	formula = formula:gsub("&lt;", "<")
 	formula = formula:gsub("&gt;", ">")
@@ -227,56 +227,56 @@ local function on_formula_clicked(elem, event)
 		formula = "d20 " .. formula
 	end
 
-    local treated, result = roll(formula)
-    output_roll(formula, treated, result)
+	local treated, result = roll(formula)
+	output_roll(formula, treated, result)
 end
 
 local storageKey = "lastText"
 
 local function save_locally()
 
-    local storage = js.global.window.localStorage
-    if storage then
-        storage:setItem(storageKey, input_div.innerHTML);
-    end
+	local storage = js.global.window.localStorage
+	if storage then
+		storage:setItem(storageKey, input_div.innerHTML);
+	end
 end
 
 local function load_locally()
 
-    local function check_empty(text)
-        return text:gsub("<(.-)>", ""):gsub("%s", "") == ""
-    end
+	local function check_empty(text)
+		return text:gsub("<(.-)>", ""):gsub("%s", "") == ""
+	end
 
-    local storage = js.global.window.localStorage
-    if storage then
-        local text = storage:getItem(storageKey);
+	local storage = js.global.window.localStorage
+	if storage then
+		local text = storage:getItem(storageKey);
 
-        if text and not check_empty(text) then
-            input_div.innerHTML = text
-        else
-            input_div.innerHTML = default_text
-        end
-    end
+		if text and not check_empty(text) then
+			input_div.innerHTML = text
+		else
+			input_div.innerHTML = default_text
+		end
+	end
 end
 
 local function treat_formulas()
 
-    local txt = input_div.innerHTML
+	local txt = input_div.innerHTML
 
-    txt = txt:gsub(formula_in .. "(.-)" .. formula_out, "%1")
-    txt = txt:gsub("%[[^%[%]]+%]", formula_in .. "%1" .. formula_out)
-    input_div.innerHTML = txt
+	txt = txt:gsub(formula_in .. "(.-)" .. formula_out, "%1")
+	txt = txt:gsub("%[[^%[%]]+%]", formula_in .. "%1" .. formula_out)
+	input_div.innerHTML = txt
 
-    update_events()
-    save_locally()
+	update_events()
+	save_locally()
 end
 
 update_events = function()
-    local spans = js.global.document:getElementsByClassName "formula"
+	local spans = js.global.document:getElementsByClassName "formula"
 
-    for i = 0, spans.length - 1 do
-        spans[i].onclick = on_formula_clicked
-    end
+	for i = 0, spans.length - 1 do
+		spans[i].onclick = on_formula_clicked
+	end
 end
 
 local function append_help()
@@ -287,10 +287,10 @@ end
 
 local function setup()
 
-    input_div = js.global.document:getElementById "mainText"
-    input_div:addEventListener("blur", treat_formulas)
+	input_div = js.global.document:getElementById "mainText"
+	input_div:addEventListener("blur", treat_formulas)
 
-    rolls_div = js.global.document:getElementById "rolls"
+	rolls_div = js.global.document:getElementById "rolls"
 
 	local title = js.global.document:getElementById "title"
 	title.onclick = append_help
@@ -303,10 +303,10 @@ local function setup()
 		input_div:setAttribute("contenteditable", editable == "true" and "false" or "true")
 	end
 
-    math.randomseed(os.time())
+	math.randomseed(os.time())
 
-    load_locally()
-    treat_formulas()
+	load_locally()
+	treat_formulas()
 end
 
 setup()

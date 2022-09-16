@@ -2,155 +2,155 @@
 
 html
 {
-    background-color: #F8F8F8;
+	background-color: #F8F8F8;
 }
 
 body
 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
 
-    margin: 0;
+	margin: 0;
 }
 
 #topbar
 {
-    margin: 1rem;
-    display: flex;
-    justify-content: space-between;
+	margin: 1rem;
+	display: flex;
+	justify-content: space-between;
 }
 
 #title
 {
-    display: inline-block;
-    margin: 0;
+	display: inline-block;
+	margin: 0;
 
-    font-family: 'Lakki Reddy', cursive;
-    font-size: 3rem;
-    height: 3rem;
+	font-family: 'Lakki Reddy', cursive;
+	font-size: 3rem;
+	height: 3rem;
 
-    color: #c10000;
+	color: #c10000;
 
-    cursor: help;
+	cursor: help;
 }
 
 #container
 {
-    display: flex;
+	display: flex;
 
-    position: absolute;
-    top: 5rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
+	position: absolute;
+	top: 5rem;
+	left: 0;
+	right: 0;
+	bottom: 0;
 
-    margin: 1em;
-    margin-top: 0;
+	margin: 1em;
+	margin-top: 0;
 }
 
 #mainText
 {
-    flex-grow: 1;
-    min-height: 200px;
-    margin-right: 1em;
+	flex-grow: 1;
+	min-height: 200px;
+	margin-right: 1em;
 
-    overflow: auto;
+	overflow: auto;
 
-    outline: 0;
+	outline: 0;
 
-    font-family: inherit;
-    font-size: inherit;
+	font-family: inherit;
+	font-size: inherit;
 
-    column-count: 3;
-    column-rule-style: solid;
-    column-rule-width: 1px;
-    column-rule-color: #ccc;
-    column-fill: auto;
+	column-count: 3;
+	column-rule-style: solid;
+	column-rule-width: 1px;
+	column-rule-color: #ccc;
+	column-fill: auto;
 
-    background: white;
-    border: solid 1px #ccc;
-    padding: 1em;
+	background: white;
+	border: solid 1px #ccc;
+	padding: 1em;
 }
 
 #rolls
 {
-    min-width: 170px;
-    max-width: 170px;
-    background: lightgrey;
-    word-break: break-all;
-    overflow-y: auto;
+	min-width: 170px;
+	max-width: 170px;
+	background: lightgrey;
+	word-break: break-all;
+	overflow-y: auto;
 
-    background: white;
-    border: solid 1px #ccc;
-    padding: 1em;
+	background: white;
+	border: solid 1px #ccc;
+	padding: 1em;
 }
 
 #rolls > p:first-child
 {
-    margin-top: 0;
+	margin-top: 0;
 }
 
 .formula
 {
-    font-weight: bold;
-    color: #c10000;
+	font-weight: bold;
+	color: #c10000;
 
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .result
 {
-    border: solid 1px #c10000;
-    padding: 1px 2px 1px 2px;
-    word-break: keep-all;
+	border: solid 1px #c10000;
+	padding: 1px 2px 1px 2px;
+	word-break: keep-all;
 }
 
 @media only screen and (max-width: 1000px)
 {
-    #mainText
-    {
-        column-count: 2;
-    }
+	#mainText
+	{
+		column-count: 2;
+	}
 }
 
 @media only screen and (max-width: 600px)
 {
-    #topbar
-    {
-        height: 1rem;
-    }
+	#topbar
+	{
+		height: 1rem;
+	}
 
-    #title
-    {
-        font-size: 1rem;
-    }
+	#title
+	{
+		font-size: 1rem;
+	}
 
-    #container
-    {
-        flex-direction: column;
-        top: 3em;
-    }
+	#container
+	{
+		flex-direction: column;
+		top: 3em;
+	}
 
-    #mainText
-    {
-        column-count: 1;
-        margin: 0;
-        margin-bottom: 1em;
-    }
+	#mainText
+	{
+		column-count: 1;
+		margin: 0;
+		margin-bottom: 1em;
+	}
 
-    #rolls
-    {
-        min-width: inherit;
-        max-width: inherit;
+	#rolls
+	{
+		min-width: inherit;
+		max-width: inherit;
 
-        min-height: 20%;
-        max-height: 20%;
-    }
+		min-height: 20%;
+		max-height: 20%;
+	}
 
-    #lockcontainer
-    {
-        transform: scale(0.5);
-    }
+	#lockcontainer
+	{
+		transform: scale(0.5);
+	}
 }
 
 /* Lock stuff */
@@ -158,82 +158,82 @@ body
 
 #lockcontainer
 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    --locked-color: #c10000;
-    --unlocked-color: #c10000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	--locked-color: #c10000;
+	--unlocked-color: #c10000;
 }
 
 .lock {
-  box-sizing: border-box;
-  width: 24px;
-  height: 21px;
-  border: 3px solid var(--locked-color);
-  border-radius: 5px;
-  position: relative;
-  cursor: pointer;
-  -webkit-transition: all 0.1s ease-in-out;
-  transition: all 0.1s ease-in-out;
-  top: 7px;
+	box-sizing: border-box;
+	width: 24px;
+	height: 21px;
+	border: 3px solid var(--locked-color);
+	border-radius: 5px;
+	position: relative;
+	cursor: pointer;
+	-webkit-transition: all 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
+	top: 7px;
 }
 .lock:after {
-  content: "";
-  display: block;
-  background: var(--locked-color);
-  width: 3px;
-  height: 7px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -3.5px 0 0 -2px;
-  -webkit-transition: all 0.1s ease-in-out;
-  transition: all 0.1s ease-in-out;
+	content: "";
+	display: block;
+	background: var(--locked-color);
+	width: 3px;
+	height: 7px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -3.5px 0 0 -2px;
+	-webkit-transition: all 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
 }
 .lock:before {
-  content: "";
-  display: block;
-  width: 10px;
-  height: 10px;
-  bottom: 100%;
-  position: absolute;
-  left: 50%;
-  margin-left: -8px;
-  border: 3px solid var(--locked-color);
-  border-top-right-radius: 50%;
-  border-top-left-radius: 50%;
-  border-bottom: 0;
-  -webkit-transition: all 0.1s ease-in-out;
-  transition: all 0.1s ease-in-out;
+	content: "";
+	display: block;
+	width: 10px;
+	height: 10px;
+	bottom: 100%;
+	position: absolute;
+	left: 50%;
+	margin-left: -8px;
+	border: 3px solid var(--locked-color);
+	border-top-right-radius: 50%;
+	border-top-left-radius: 50%;
+	border-bottom: 0;
+	-webkit-transition: all 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
 }
 /* Locked Hover */
 .lock:hover:before {
-  height: 12px;
+	height: 12px;
 }
 /* Unlocked */
 .unlocked {
-  transform: rotate(10deg);
+	transform: rotate(10deg);
 }
 .unlocked:before {
-  bottom: 130%;
-  left: 31%;
-  margin-left: -11.5px;
-  transform: rotate(-45deg);
+	bottom: 130%;
+	left: 31%;
+	margin-left: -11.5px;
+	transform: rotate(-45deg);
 }
 .unlocked,
 .unlocked:before {
-  border-color: var(--unlocked-color);
+	border-color: var(--unlocked-color);
 }
 .unlocked:after {
-  background: var(--unlocked-color);
+	background: var(--unlocked-color);
 }
 /* Unlocked Hover */
 .unlocked:hover {
-  transform: rotate(3deg);
+	transform: rotate(3deg);
 }
 .unlocked:hover:before {
-  height: 10px;
-  left: 40%;
-  bottom: 124%;
-  transform: rotate(-30deg);
+	height: 10px;
+	left: 40%;
+	bottom: 124%;
+	transform: rotate(-30deg);
 }
