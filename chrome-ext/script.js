@@ -4,6 +4,11 @@ function findTextNodes(node)
 
 	function rec(node)
 	{
+		if (node.tagName == "SCRIPT" || node.tagName == "STYLE")
+		{
+			return;
+		}
+
 		if (node.nodeType === document.TEXT_NODE)
 		{
 			res.push(node);
@@ -21,7 +26,7 @@ function findTextNodes(node)
 	return res;
 }
 
-const formula_regex = /\d+d\d+\s*[\+\-]\s*\d+/g;
+const formula_regex = /\d+?d\d+(\s*[\+\-]\s*\d+)?|(?<!\d)[\+\-]\s*\d+/g;
 
 function treatNode(node)
 {
@@ -40,4 +45,19 @@ function treatNode(node)
 	}
 }
 
-findTextNodes(document.body).forEach(treatNode);
+function onFormulaClicked(event)
+{
+	console.log(event.target.innerText);
+}
+
+function setup()
+{
+	findTextNodes(document.body).forEach(treatNode);
+	var formulas = document.getElementsByClassName("plonk-formula");
+	for (var formula of formulas)
+	{
+		formula.addEventListener("click", onFormulaClicked);
+	}
+}
+
+setup();
