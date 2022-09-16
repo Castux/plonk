@@ -217,15 +217,7 @@ local function output_roll(formula, treated, result)
 	update_events()
 end
 
-local saved_formulas = {}
 
-local function on_formula_clicked(elem, event)
-
-	local formula = saved_formulas[elem.innerHTML]
-
-	local treated, result = roll(formula)
-	output_roll(formula, treated, result)
-end
 
 local storageKey = "lastText"
 
@@ -255,6 +247,8 @@ local function load_locally()
 	end
 end
 
+local saved_formulas = {}
+
 local function check_formula(txt)
 
 	local formula
@@ -282,6 +276,18 @@ local function check_formula(txt)
 	else
 		return text
 	end
+end
+
+local function on_formula_clicked(elem, event)
+
+	local formula = saved_formulas[elem.innerHTML]
+	if not formula then
+		check_formula(elem.innerHTML)
+		formula = saved_formulas[elem.innerHTML]
+	end
+
+	local treated, result = roll(formula)
+	output_roll(formula, treated, result)
 end
 
 local function treat_formulas()
