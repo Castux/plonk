@@ -1,6 +1,6 @@
 {
-	"name": "Getting Started Example",
-	"description": "Build an Extension!",
+	"name": "Plonk!",
+	"description": "Minimalistic inline dice roller",
 	"version": "1.0",
 	"manifest_version": 3,
 	"content_scripts": [
@@ -9,7 +9,7 @@
 			"all_frames": true,
 			"run_at": "document_end",
 			"css": ["style.css"],
-			"js": ["script.js"]
+			"js": ["grammar.js", "script.js"]
 		}
 	]
 }

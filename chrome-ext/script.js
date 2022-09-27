@@ -47,7 +47,10 @@ function treatNode(node)
 
 function onFormulaClicked(event)
 {
-	console.log(event.target.innerText);
+	var text = event.target.innerText;
+	var parsed = peg$parse(text);
+	console.log(parsed);
+
 }
 
 function setup()
@@ -58,6 +61,9 @@ function setup()
 	{
 		formula.addEventListener("click", onFormulaClicked);
 	}
+
+	var parsed = peg$parse("Some random bull with 23d45 + 4 in the middle but also (3d12 + d4 ) * 5.");
+	console.log(parsed);
 }
 
 setup();
