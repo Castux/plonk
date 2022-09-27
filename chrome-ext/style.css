@@ -5,3 +5,47 @@
 
 	cursor: pointer;
 }
+
+#plonk-box
+{
+	position: fixed;
+	height: 100%;
+	min-width: 170px;
+	max-width: 170px;
+	right: 0;
+	top: 0;
+	z-index: 2000;
+
+	word-break: break-all;
+	overflow-y: auto;
+
+	background: white;
+	border: solid 1px #ccc;
+	padding: 1em;
+
+	opacity: 0%;
+}
+
+#plonk-box > p:first-child
+{
+	margin-top: 0;
+}
+
+.plonk-result
+{
+	border: solid 1px #c10000;
+	padding: 1px 2px 1px 2px;
+	word-break: keep-all;
+}
+
+.plonk-fade
+{
+	opacity: 1;
+	animation: fade 4s linear;
+}
+
+@keyframes fade
+{
+	0%,100% { opacity: 0 }
+	10%,90% { opacity: 1 }
+}

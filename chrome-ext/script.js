@@ -128,7 +128,27 @@ function onFormulaClicked(event)
 	var text = event.target.innerText;
 	var formula = formulas[text];
 	var result = computeExpression(formula);
-	console.log(formula, result);
+
+	var p = document.createElement('p');
+
+	p.innerHTML = "<span class='plonk-formula'>" + text + "</span>" +
+		'<br />' + result
+
+	var div = document.getElementById("plonk-box");
+	div.insertBefore(p, div.firstChild);
+
+	div.classList.add("plonk-fade");
+	div.addEventListener("animationend", function(e)
+	{
+		div.classList.remove("plonk-fade");
+	});
+}
+
+function createBox()
+{
+	var div = document.createElement('div');
+	div.setAttribute("id", "plonk-box");
+	document.body.appendChild(div);
 }
 
 function setup()
@@ -139,6 +159,8 @@ function setup()
 	{
 		formula.addEventListener("click", onFormulaClicked);
 	}
+
+	createBox();
 }
 
 setup();
