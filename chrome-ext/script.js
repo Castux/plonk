@@ -44,23 +44,36 @@ function rollDie(die)
 {
 	var sum = 0;
 	var amount = die.amount || 1;
+
+	var rolls = [];
+
 	for (var i = 0; i < amount; i++)
 	{
-		sum += Math.floor(Math.random() * die.faces) + 1;
+		var r = Math.floor(Math.random() * die.faces) + 1;
+		rolls.push(r);
+		sum += r;
 	}
-	return sum;
+	
+	return {value: sum, text: "{" + rolls.join(",") + "}"};
 }
 
 function rolld20(d20)
 {
 	var sum = Math.floor(Math.random() * 20) + 1;
+	var text = "{" + sum + "}";
 	switch (d20.op)
 	{
 		case "+":
-			return sum + d20.value;
+			sum += d20.value;
+			text += "+" + d20.value;
+			break;
 		case "-":
-			return sum - d20.value;
+			sum -= d20.value;
+			text += "-" + d20.value;
+			break;
 	}
+
+	return {value: sum, text: text};
 }
 
 function computeOp(formula)
@@ -68,13 +81,18 @@ function computeOp(formula)
 	var left = computeExpression(formula.left);
 	var right = computeExpression(formula.right);
 
+	var value;
 	switch(formula.op)
 	{
-		case "+": return left + right;
-		case "-": return left - right;
-		case "*": return left * right;
-		case "/": return Math.floor(left / right);
+		case "+": value = left.value + right.value; break;
+		case "-": value = left.value - right.value; break;
+		case "*": value = left.value * right.value; break;
+		case "/": value = Math.floor(left.value / right.value); break;
 	}
+
+	var text = "(" + left.text + " " + formula.op + " " + right.text + ")";
+
+	return {value: value, text: text};
 }
 
 function computeExpression(formula)
@@ -82,7 +100,7 @@ function computeExpression(formula)
 	switch (formula.kind)
 	{
 		case "integer":
-			return formula.value;
+			return {value: formula.value, text: formula.value};
 		case "die":
 			return rollDie(formula);
 		case "d20":
@@ -123,6 +141,14 @@ function treatNode(node)
 	node.replaceWith(...nodes);
 }
 
+function stripOuterParens(text)
+{
+	if (text.charAt(0) == "(" && text.charAt(text.length - 1) == ")")
+		return text.slice(1, -1);
+
+	return text;
+}
+
 function onFormulaClicked(event)
 {
 	var text = event.target.innerText;
@@ -132,7 +158,7 @@ function onFormulaClicked(event)
 	var p = document.createElement('p');
 
 	p.innerHTML = "<span class='plonk-formula'>" + text + "</span>" +
-		'<br />' + result
+		'<br />' + stripOuterParens(result.text) + " → " + result.value;
 
 	var div = document.getElementById("plonk-box");
 	div.insertBefore(p, div.firstChild);
