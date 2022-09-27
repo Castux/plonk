@@ -30,7 +30,7 @@ implied_d20
 		return {
 			kind: "d20",
 			op: op,
-			value: value
+			value: value.value
 		};
 	}
 
@@ -54,8 +54,8 @@ die
 	{
 		return {
 			kind: "die",
-			amount: amount,
-			faces: faces
+			amount: amount.value,
+			faces: faces.value
 		}
 	}
 

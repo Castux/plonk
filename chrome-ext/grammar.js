@@ -213,7 +213,7 @@ function peg$parse(input, options) {
 		return {
 			kind: "d20",
 			op: op,
-			value: value
+			value: value.value
 		};
 	};
   var peg$f3 = function(left, op, right) { return {kind: "op", left: left, op: op, right: right}; };
@@ -221,8 +221,8 @@ function peg$parse(input, options) {
   var peg$f5 = function(amount, faces) {
 		return {
 			kind: "die",
-			amount: amount,
-			faces: faces
+			amount: amount.value,
+			faces: faces.value
 		}
 	};
   var peg$f6 = function(digits) {
