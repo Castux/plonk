@@ -6,19 +6,20 @@
 }}
 
 start
-	= not_formula formulas:(@formula not_formula)+
+	= head:not_formula tail:(formula not_formula)+
 	{
-		return formulas;
+		return [head, ...tail].flat();
 	}
 
 not_formula
-	= (!formula .)*
+	= $(!formula .)*
 
 formula
 	= expression: additive
 	{
 		return {
 			expression: expression,
+			text: text(),
 			range: range()
 		}
 	}

@@ -27,22 +27,29 @@ function findTextNodes(node)
 }
 
 const formula_regex = /\d+?d\d+(\s*[\+\-]\s*\d+)?|(?<!\d)[\+\-]\s*\d+/g;
+const die_regex = /[dD]\d+/g;
+
 
 function treatNode(node)
 {
 	var text = node.nodeValue;
-	var replaced = text.replaceAll(formula_regex, function(match)
+	if (!text.match(die_regex))
+		return;
+
+	var parsed = peg$parse(text);
+
+	var replaced = parsed.map(e =>
 	{
-		return "<span class='plonk-formula'>" + match + "</span>";
+		if (typeof e === 'string')
+			return e;
+
+		return "<span class='plonk-formula'>" + e.text + "</span>";
 	});
 
-	if (replaced != text)
-	{
-		var span = document.createElement('span');
-		span.innerHTML = replaced;
-		var nodes = Array.from(span.childNodes);
-		node.replaceWith(...nodes);
-	}
+	var span = document.createElement('span');
+	span.innerHTML = replaced.join('');
+	var nodes = Array.from(span.childNodes);
+	node.replaceWith(...nodes);
 }
 
 function onFormulaClicked(event)
@@ -61,9 +68,6 @@ function setup()
 	{
 		formula.addEventListener("click", onFormulaClicked);
 	}
-
-	var parsed = peg$parse("Some random bull with 23d45 + 4 in the middle but also (3d12 + d4 ) * 5.");
-	console.log(parsed);
 }
 
 setup();
