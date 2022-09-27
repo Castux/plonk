@@ -15,13 +15,23 @@ not_formula
 	= $(!formula .)*
 
 formula
-	= expression: additive
+	= expression:(implied_d20 / additive)
 	{
 		return {
 			expression: expression,
 			text: text(),
 			range: range()
 		}
+	}
+
+implied_d20
+	= op:('+' / '-') value:integer
+	{
+		return {
+			kind: "d20",
+			op: op,
+			value: value
+		};
 	}
 
 additive

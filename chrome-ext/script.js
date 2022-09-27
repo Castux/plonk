@@ -31,6 +31,7 @@ function contains_die(formula)
 	switch (formula.kind)
 	{
 		case "die":
+		case "d20":
 			return true;
 		case "op":
 			return contains_die(formula.left) || contains_die(formula.right);
@@ -39,9 +40,7 @@ function contains_die(formula)
 	}
 }
 
-const formula_regex = /\d+?d\d+(\s*[\+\-]\s*\d+)?|(?<!\d)[\+\-]\s*\d+/g;
-const die_regex = /[dD]\d+/g;
-
+const die_regex = /[dD\+\-]\d+/g;
 
 function treatNode(node)
 {
