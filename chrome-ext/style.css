@@ -26,6 +26,11 @@
 	opacity: 0%;
 }
 
+#plonk-box > p
+{
+	margin: 1em;
+}
+
 #plonk-box > p:first-child
 {
 	margin-top: 0;
@@ -41,7 +46,7 @@
 .plonk-fade
 {
 	opacity: 1;
-	animation: fade 4s linear;
+	animation: fade 5s linear;
 }
 
 @keyframes fade

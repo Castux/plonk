@@ -221,7 +221,7 @@ function peg$parse(input, options) {
   var peg$f5 = function(amount, faces) {
 		return {
 			kind: "die",
-			amount: amount.value,
+			amount: amount ? amount.value : 1,
 			faces: faces.value
 		}
 	};
