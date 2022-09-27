@@ -26,7 +26,7 @@ function findTextNodes(node)
 	return res;
 }
 
-function contains_die(formula)
+function containsDie(formula)
 {
 	switch (formula.kind)
 	{
@@ -34,13 +34,66 @@ function contains_die(formula)
 		case "d20":
 			return true;
 		case "op":
-			return contains_die(formula.left) || contains_die(formula.right);
+			return containsDie(formula.left) || containsDie(formula.right);
 		default:
 			return false;
 	}
 }
 
+function rollDie(die)
+{
+	var sum = 0;
+	var amount = die.amount || 1;
+	for (var i = 0; i < amount; i++)
+	{
+		sum += Math.floor(Math.random() * die.faces) + 1;
+	}
+	return sum;
+}
+
+function rolld20(d20)
+{
+	var sum = Math.floor(Math.random() * 20) + 1;
+	switch (d20.op)
+	{
+		case "+":
+			return sum + d20.value;
+		case "-":
+			return sum - d20.value;
+	}
+}
+
+function computeOp(formula)
+{
+	var left = computeExpression(formula.left);
+	var right = computeExpression(formula.right);
+
+	switch(formula.op)
+	{
+		case "+": return left + right;
+		case "-": return left - right;
+		case "*": return left * right;
+		case "/": return Math.floor(left / right);
+	}
+}
+
+function computeExpression(formula)
+{
+	switch (formula.kind)
+	{
+		case "integer":
+			return formula.value;
+		case "die":
+			return rollDie(formula);
+		case "d20":
+			return rolld20(formula);
+		case "op":
+			return computeOp(formula);
+	}
+}
+
 const die_regex = /[dD\+\-]\d+/g;
+var formulas = {};
 
 function treatNode(node)
 {
@@ -55,8 +108,11 @@ function treatNode(node)
 		if (typeof e === 'string')
 			return e;
 
-		if (contains_die(e.expression))
+		if (containsDie(e.expression))
+		{
+			formulas[e.text] = e.expression;
 			return "<span class='plonk-formula'>" + e.text + "</span>";
+		}
 		else
 			return e.text;
 	});
@@ -70,9 +126,9 @@ function treatNode(node)
 function onFormulaClicked(event)
 {
 	var text = event.target.innerText;
-	var parsed = peg$parse(text);
-	console.log(parsed);
-
+	var formula = formulas[text];
+	var result = computeExpression(formula);
+	console.log(formula, result);
 }
 
 function setup()
