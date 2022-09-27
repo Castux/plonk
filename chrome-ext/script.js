@@ -26,6 +26,19 @@ function findTextNodes(node)
 	return res;
 }
 
+function contains_die(formula)
+{
+	switch (formula.kind)
+	{
+		case "die":
+			return true;
+		case "op":
+			return contains_die(formula.left) || contains_die(formula.right);
+		default:
+			return false;
+	}
+}
+
 const formula_regex = /\d+?d\d+(\s*[\+\-]\s*\d+)?|(?<!\d)[\+\-]\s*\d+/g;
 const die_regex = /[dD]\d+/g;
 
@@ -43,7 +56,10 @@ function treatNode(node)
 		if (typeof e === 'string')
 			return e;
 
-		return "<span class='plonk-formula'>" + e.text + "</span>";
+		if (contains_die(e.expression))
+			return "<span class='plonk-formula'>" + e.text + "</span>";
+		else
+			return e.text;
 	});
 
 	var span = document.createElement('span');
