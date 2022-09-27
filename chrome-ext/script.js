@@ -149,6 +149,25 @@ function stripOuterParens(text)
 	return text;
 }
 
+
+const fadeOutDuration = 5000;
+var fadeOutTime;
+
+function fadeInBox()
+{
+	var div = document.getElementById("plonk-box");
+	div.classList.add("plonk-fade");
+
+	fadeOutTime = Date.now() + fadeOutDuration;
+
+	setTimeout(() => {
+		if (Date.now() >= fadeOutTime)
+		{
+			div.classList.remove("plonk-fade");
+		}
+	}, fadeOutDuration + 10);
+}
+
 function onFormulaClicked(event)
 {
 	var text = event.target.innerText;
@@ -165,11 +184,7 @@ function onFormulaClicked(event)
 	var div = document.getElementById("plonk-box");
 	div.insertBefore(p, div.firstChild);
 
-	div.classList.add("plonk-fade");
-	div.addEventListener("animationend", function(e)
-	{
-		div.classList.remove("plonk-fade");
-	});
+	fadeInBox();
 }
 
 function createBox()

@@ -6,6 +6,11 @@
 	cursor: pointer;
 }
 
+.plonk-fade
+{
+	opacity: 100% !important;
+}
+
 #plonk-box
 {
 	position: fixed;
@@ -24,6 +29,8 @@
 	padding: 1em;
 
 	opacity: 0%;
+
+	transition: opacity 0.5s;
 }
 
 #plonk-box > p
@@ -41,16 +48,4 @@
 	border: solid 1px #c10000;
 	padding: 1px 2px 1px 2px;
 	word-break: keep-all;
-}
-
-.plonk-fade
-{
-	opacity: 1;
-	animation: fade 5s linear;
-}
-
-@keyframes fade
-{
-	0%,100% { opacity: 0 }
-	5%,95% { opacity: 1 }
 }
