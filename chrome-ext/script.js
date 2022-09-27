@@ -53,7 +53,7 @@ function rollDie(die)
 		rolls.push(r);
 		sum += r;
 	}
-	
+
 	return {value: sum, text: "{" + rolls.join(",") + "}"};
 }
 
@@ -160,6 +160,8 @@ function onFormulaClicked(event)
 	p.innerHTML = "<span class='plonk-formula'>" + text + "</span>" +
 		'<br />' + stripOuterParens(result.text) + " → " + result.value;
 
+	makeFormulasClickable(p);
+
 	var div = document.getElementById("plonk-box");
 	div.insertBefore(p, div.firstChild);
 
@@ -177,14 +179,19 @@ function createBox()
 	document.body.appendChild(div);
 }
 
-function setup()
+function makeFormulasClickable(root)
 {
-	findTextNodes(document.body).forEach(treatNode);
-	var formulas = document.getElementsByClassName("plonk-formula");
+	var formulas = root.getElementsByClassName("plonk-formula");
 	for (var formula of formulas)
 	{
 		formula.addEventListener("click", onFormulaClicked);
 	}
+}
+
+function setup()
+{
+	findTextNodes(document.body).forEach(treatNode);
+	makeFormulasClickable(document.body);
 
 	createBox();
 }

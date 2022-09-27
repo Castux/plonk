@@ -5,7 +5,7 @@
 	"manifest_version": 3,
 	"content_scripts": [
 		{
-			"matches": ["https://roll20.net/*", "*://*/*"],
+			"matches": ["*://*/*"],
 			"all_frames": true,
 			"run_at": "document_end",
 			"css": ["style.css"],
