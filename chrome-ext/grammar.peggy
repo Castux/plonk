@@ -50,7 +50,7 @@ atomic
 		/ integer
 
 die
-	= amount:integer? 'd' faces:integer
+	= amount:integer? [dD] faces:integer
 	{
 		return {
 			kind: "die",

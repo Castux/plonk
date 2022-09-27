@@ -182,10 +182,10 @@ function peg$parse(input, options) {
   var peg$c3 = "/";
   var peg$c4 = "(";
   var peg$c5 = ")";
-  var peg$c6 = "d";
 
-  var peg$r0 = /^[0-9]/;
-  var peg$r1 = /^[ \t\r\n]/;
+  var peg$r0 = /^[dD]/;
+  var peg$r1 = /^[0-9]/;
+  var peg$r2 = /^[ \t\r\n]/;
 
   var peg$e0 = peg$anyExpectation();
   var peg$e1 = peg$literalExpectation("+", false);
@@ -194,7 +194,7 @@ function peg$parse(input, options) {
   var peg$e4 = peg$literalExpectation("/", false);
   var peg$e5 = peg$literalExpectation("(", false);
   var peg$e6 = peg$literalExpectation(")", false);
-  var peg$e7 = peg$literalExpectation("d", false);
+  var peg$e7 = peg$classExpectation(["d", "D"], false, false);
   var peg$e8 = peg$otherExpectation("integer");
   var peg$e9 = peg$classExpectation([["0", "9"]], false, false);
   var peg$e10 = peg$classExpectation([" ", "\t", "\r", "\n"], false, false);
@@ -708,8 +708,8 @@ function peg$parse(input, options) {
     if (s1 === peg$FAILED) {
       s1 = null;
     }
-    if (input.charCodeAt(peg$currPos) === 100) {
-      s2 = peg$c6;
+    if (peg$r0.test(input.charAt(peg$currPos))) {
+      s2 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
       s2 = peg$FAILED;
@@ -739,7 +739,7 @@ function peg$parse(input, options) {
     s0 = peg$currPos;
     s1 = peg$currPos;
     s2 = [];
-    if (peg$r0.test(input.charAt(peg$currPos))) {
+    if (peg$r1.test(input.charAt(peg$currPos))) {
       s3 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
@@ -749,7 +749,7 @@ function peg$parse(input, options) {
     if (s3 !== peg$FAILED) {
       while (s3 !== peg$FAILED) {
         s2.push(s3);
-        if (peg$r0.test(input.charAt(peg$currPos))) {
+        if (peg$r1.test(input.charAt(peg$currPos))) {
           s3 = input.charAt(peg$currPos);
           peg$currPos++;
         } else {
@@ -783,7 +783,7 @@ function peg$parse(input, options) {
     var s0, s1;
 
     s0 = [];
-    if (peg$r1.test(input.charAt(peg$currPos))) {
+    if (peg$r2.test(input.charAt(peg$currPos))) {
       s1 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
@@ -792,7 +792,7 @@ function peg$parse(input, options) {
     }
     while (s1 !== peg$FAILED) {
       s0.push(s1);
-      if (peg$r1.test(input.charAt(peg$currPos))) {
+      if (peg$r2.test(input.charAt(peg$currPos))) {
         s1 = input.charAt(peg$currPos);
         peg$currPos++;
       } else {
