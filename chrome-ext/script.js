@@ -209,6 +209,9 @@ function makeFormulasClickable(root)
 
 function setup()
 {
+	if (location.hostname.match(/google\.com/))
+		return;
+
 	findTextNodes(document.body).forEach(treatNode);
 	var foundFormulas = makeFormulasClickable(document.body);
 
