@@ -65,11 +65,11 @@ function rolld20(d20)
 	{
 		case "+":
 			sum += d20.value;
-			text += "+" + d20.value;
+			text += " + " + d20.value;
 			break;
 		case "-":
 			sum -= d20.value;
-			text += "-" + d20.value;
+			text += " - " + d20.value;
 			break;
 	}
 
@@ -181,19 +181,24 @@ function createBox()
 
 function makeFormulasClickable(root)
 {
+	var found = false;
 	var formulas = root.getElementsByClassName("plonk-formula");
 	for (var formula of formulas)
 	{
+		found = true;
 		formula.addEventListener("click", onFormulaClicked);
 	}
+
+	return found;
 }
 
 function setup()
 {
 	findTextNodes(document.body).forEach(treatNode);
-	makeFormulasClickable(document.body);
+	var foundFormulas = makeFormulasClickable(document.body);
 
-	createBox();
+	if (foundFormulas)
+		createBox();
 }
 
 setup();
